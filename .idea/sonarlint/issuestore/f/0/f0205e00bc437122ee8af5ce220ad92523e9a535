@@ -1,0 +1,20 @@
+
+T
+java:S1144="2Remove this unused private "getConnection" method.(Ï±Í†øÿÿÿÿ8ğÜ´Æ•.
+T
+java:S1135?"2Complete the task associated to this TODO comment.(ıÍ¬Ìøÿÿÿÿ8ğÜ´Æ•.
+W	java:S125+"<This block of commented-out lines of code should be removed.(€ €8ğÜ´Æ•.
+C
+java:S1481"&Remove this unused "f" local variable.(÷İİ8õË‘Çê.
+W
+java:S1118":Add a private constructor to hide the implicit public one.(ÕÄ—Ï8ğÜ´Æ•.
+b
+java:S22593"@A "NullPointerException" could be thrown; "fr" is nullable here.(¯õâÇùÿÿÿÿ8ïÜ´Æ•.
+Q
+java:S1144Q"4Remove this unused private "closeConnection" method.(ï‚8ğÜ´Æ•.
+v
+java:S2293"YReplace the type specification in this constructor call with the diamond operator ("<>").(²€îå8ğÜ´Æ•.
+…
+java:S1488"cImmediately return this expression instead of assigning it to the temporary variable "dossierPath".(òÃÿÿÿÿÿ8ïÜ´Æ•.
+R
+java:S1854"5Remove this useless assignment to local variable "f".(÷İİ8õË‘Çê.

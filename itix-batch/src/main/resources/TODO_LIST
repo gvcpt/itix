@@ -1,0 +1,7 @@
+- importer toutes les colonnes du fichiers spi-matches
+- partie front
+  
+
+Optimisation
+- transaction globale plutot que par save 
+- renommer les méthodes service et dao

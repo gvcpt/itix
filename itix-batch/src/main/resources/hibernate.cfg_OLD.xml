@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.url">jdbc:oracle:thin:@localhost:1521:XE</property>
+        <property name="connection.driver_class">oracle.jdbc.OracleDriver</property>
+        <property name="connection.username">itix</property>
+        <property name="connection.password">itix</property>
+        <!-- Echo all executed SQL to stdout -->
+        <property name="show_sql">false</property>
+        <property name="hbm2ddl.auto">create</property>
+
+        <!--<property name="connection.autocommit">true</property>-->
+        <mapping class="itix.core.model.ScoreEntity"/>
+        <mapping class="itix.core.model.SixNationsEditionsEntity"/>
+        <mapping class="itix.core.model.TeamEntity"/>
+        <mapping class="itix.core.model.TeamResForYearEntity"/>
+        <mapping class="itix.core.model.Match"/>
+
+        <!-- DB schema will be updated if needed -->
+        <!-- <property name="hbm2ddl.auto">update</property> -->
+    </session-factory>
+</hibernate-configuration>

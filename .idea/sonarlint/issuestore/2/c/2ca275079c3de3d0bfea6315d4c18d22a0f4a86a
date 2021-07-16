@@ -1,0 +1,39 @@
+
+l
+java:S11923"QUse already-defined constant 'SALERNITANA' instead of duplicating its value here.(Ç§”¿úÿÿÿÿ
+c
+java:S1192¶"GDefine a constant instead of duplicating this literal "xGDiff" 3 times.(Œ»Ëýúÿÿÿÿ
+l
+java:S11923"QUse already-defined constant 'SALERNITANA' instead of duplicating its value here.(Ç§”¿úÿÿÿÿ
+c
+java:S1192¶"GDefine a constant instead of duplicating this literal "xGDiff" 3 times.(Œ»Ëýúÿÿÿÿ
+Q	java:S125T"<This block of commented-out lines of code should be removed.(É”¾Ø
+P	java:S125a"<This block of commented-out lines of code should be removed.(ÎÏêA
+Q	java:S125T"<This block of commented-out lines of code should be removed.(É”¾Ø
+P	java:S125a"<This block of commented-out lines of code should be removed.(ÎÏêA
+t
+java:S2293s"YReplace the type specification in this constructor call with the diamond operator ("<>").(¼ú®õüÿÿÿÿ
+t
+java:S2293s"YReplace the type specification in this constructor call with the diamond operator ("<>").(¼ú®õüÿÿÿÿ
+W	java:S125…"<This block of commented-out lines of code should be removed.(Š¼Îøþÿÿÿÿ
+W	java:S125…"<This block of commented-out lines of code should be removed.(Š¼Îøþÿÿÿÿ
+]
+java:S1075»"ARefactor your code to get this URI from a customizable parameter.(ÐÙ£üÿÿÿÿ
+]
+java:S1075»"ARefactor your code to get this URI from a customizable parameter.(ÐÙ£üÿÿÿÿ
+u
+java:S2142Å"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(ä ¹€
+u
+java:S2142Å"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(ä ¹€
+D
+java:S1068%".Remove this unused "PROPERTIES" private field.(˜ô
+V
+java:S1068&"@Remove this unused "SIX_NATIONS_COMMON_FILE_NAME" private field.(³òŸ¢
+J
+java:S1068'"/Remove this unused "SALERNITANA" private field.(äª˜úÿÿÿÿÿ
+D
+java:S1068%".Remove this unused "PROPERTIES" private field.(˜ô
+V
+java:S1068&"@Remove this unused "SIX_NATIONS_COMMON_FILE_NAME" private field.(³òŸ¢
+J
+java:S1068'"/Remove this unused "SALERNITANA" private field.(äª˜úÿÿÿÿÿ

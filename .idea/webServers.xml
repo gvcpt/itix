@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="147689f5-9421-4c45-9db1-4b80026d232d" name="ItixServer" url="http://localhost:8080/itixsrv">
+        <fileTransfer mountedRoot="C:\Apps\apache-tomcat-8.5.43" accessType="MOUNT" port="0" />
+      </webServer>
+    </option>
+  </component>
+</project>

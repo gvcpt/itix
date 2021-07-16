@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="itix-batch" />
+        <module name="main" />
+        <module name="itix-rest" />
+        <module name="itix-app-frontend" />
+        <module name="itix-core" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="demoREST" target="1.8" />
+      <module name="itix-app-backend" target="1.8" />
+      <module name="itix-rest-web" target="1.8" />
+      <module name="itix-ws" target="1.8" />
+      <module name="itix-ws2" target="1.7" />
+      <module name="main" target="1.6" />
+      <module name="RESTful" target="8" />
+      <module name="ScubTutorialHibernate" target="1.5" />
+      <module name="testws" target="8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="itix-app-backend" options="-parameters" />
+      <module name="itix-rest" options="" />
+    </option>
+  </component>
+  <component name="TypeScriptCompiler">
+    <option name="recompileOnChanges" value="true" />
+  </component>
+</project>
