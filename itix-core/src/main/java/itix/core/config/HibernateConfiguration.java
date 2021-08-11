@@ -50,7 +50,7 @@ public class HibernateConfiguration {
         Properties properties = new Properties();
         properties.put("hibernate.dialect", PROPERTY_NAME_HIBERNATE_DIALECT);
         properties.put("hibernate.show_sql", PROPERTY_NAME_HIBERNATE_SHOW_SQL);
-        properties.put("hibernate.hbm2ddl.auto", "create");
+        properties.put("hibernate.hbm2ddl.auto", "none");
         properties.put("shutdown", "true");
         return properties;
     }

@@ -11,6 +11,7 @@
         <module>itix-app-frontend</module>
         <module>itix-core</module>
         <module>itix-rest</module>
+        <module>rest-spark</module>
     </modules>
     <packaging>pom</packaging>
 

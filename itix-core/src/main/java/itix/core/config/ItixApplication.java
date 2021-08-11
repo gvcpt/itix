@@ -1,4 +1,4 @@
-package itix.batch;
+package itix.core.config;
 
 import itix.core.model.Match;
 import itix.core.model.ScoreEntity;
@@ -39,10 +39,10 @@ public class ItixApplication {
     private static final String SALERNITANA = "Salernitana";
 
     @Autowired
-    MatchService matchService;
+    private MatchService matchService;
 
     @Autowired
-    ScoreService scoreService;
+    private ScoreService scoreService;
 
 
     public void testSimpleWrite() {
@@ -58,6 +58,10 @@ public class ItixApplication {
         Match savedMatch = matchService.getById(1L);
         logger.debug("retrieving saved match " + savedMatch);
 
+    }
+
+    public MatchService getMatchService() {
+        return this.matchService;
     }
 
 

@@ -1,6 +1,7 @@
 package itix.batch;
 
 import itix.batch.config.AppConfiguration;
+import itix.core.config.ItixApplication;
 import itix.core.helper.CsvFileHelper;
 import java.util.List;
 import org.apache.log4j.Logger;

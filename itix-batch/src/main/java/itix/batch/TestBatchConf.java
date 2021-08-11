@@ -1,6 +1,7 @@
 package itix.batch;
 
 import itix.batch.config.AppConfiguration;
+import itix.core.config.ItixApplication;
 import itix.core.service.MatchService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

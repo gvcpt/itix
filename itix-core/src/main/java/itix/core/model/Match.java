@@ -118,4 +118,21 @@ public class Match {
     public void setNsAxG(String nsAxG) {
         this.nsAxG = nsAxG;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Match{");
+        sb.append("id=").append(id);
+        sb.append(", season='").append(season).append('\'');
+        sb.append(", homeTeam='").append(homeTeam).append('\'');
+        sb.append(", awayTeam='").append(awayTeam).append('\'');
+        sb.append(", HScore='").append(HScore).append('\'');
+        sb.append(", AScore='").append(AScore).append('\'');
+        sb.append(", HxG='").append(HxG).append('\'');
+        sb.append(", AxG='").append(AxG).append('\'');
+        sb.append(", nsHxG='").append(nsHxG).append('\'');
+        sb.append(", nsAxG='").append(nsAxG).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }
