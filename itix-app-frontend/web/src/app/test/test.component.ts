@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from "rxjs";
 
 @Component({
@@ -13,14 +13,16 @@ export class TestComponent implements OnInit {
   private testUrl = 'https://www.googleapis.com/books/v1/volumes?q=extreme%20programming';
   private realItixSparkRestUrl = 'http://localhost:4567/getMatches';
 
-  private id;
-  private content;
-  private homeTeam;
-  private awayTeam;
-  private homeScore;
-  private awayScore;
-  private homexG;
-  private awayxG;
+
+  matchList = [{
+    id: String,
+    homeTeam: String,
+    awayTeam: String,
+    HScore: String,
+    AScore: String,
+    HxG: String,
+    AxG: String,
+  }];
 
   constructor(private http: HttpClient) {
     this.http.get<TestComponent[]>(this.realItixSparkRestUrl)
@@ -33,16 +35,14 @@ export class TestComponent implements OnInit {
   getTest(): Observable<TestComponent[]> {
     // retrieve and organize infos from url
     this.http.get<any>(this.realItixSparkRestUrl).subscribe(data => {
-      this.id = data[0].id;
-      this.content = data[0].season;
-      this.homeTeam = data[0].homeTeam;
-      this.awayTeam = data[0].awayTeam;
-      this.homeScore = data[0].HScore;
-      this.awayScore = data[0].AScore;
-      this.homexG = data[0].HxG;
-      this.awayxG = data[0].AxG;
-    })
+      this.matchList = [];
+      for (let m of data) {
+        this.matchList.push(m);
+        // console.log('matchList ' + m.id, m.homeTeam, m.awayTeam, m.HScore, m.AScore, m.HxG, m.AxG);
+      }
 
+      // console.log('matchList ' + this.matchList.length);
+    })
     return this.http.get<TestComponent[]>(this.realItixSparkRestUrl);
   }
 

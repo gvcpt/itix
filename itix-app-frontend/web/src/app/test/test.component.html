@@ -1,9 +1,6 @@
-<p>{{id}} =>  {{homeTeam}} vs {{awayTeam}} : {{homeScore}}-{{awayScore}} ({{homexG}}-{{awayxG}}) </p>
-
-<!--<ul>-->
-<!--  <li *ngFor="let i of items">{{ i.volumeInfo.title }}-->
-<!--    <div *ngIf="i.volumeInfo.subtitle">-->
-<!--      <span>({{ i.volumeInfo.subtitle }})</span>-->
-<!--    </div>-->
-<!--  </li>-->
-<!--</ul>-->
+<p>number of lines: {{this.matchList.length}}</p>
+<ul>
+  <li *ngFor="let m of this.matchList">
+    <span>{{m.id}} => {{m.homeTeam}} vs {{m.awayTeam}} : {{m.HScore}}({{m.HxG}})-{{m.AScore}}({{m.AxG}})</span>
+  </li>
+</ul>
