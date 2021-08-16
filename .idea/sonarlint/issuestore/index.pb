@@ -19,8 +19,6 @@ O
 node_modules/tslib/package.json,e\0\e0e9808185eae3da692c11252092a39fe7c1cf04
 N
 node_modules/oracledb/index.js,5\c\5ca2efbe9ebc56498e402ff863cfd6e2e5d249c2
-R
-"itix-app-frontend/web/package.json,d\0\d0650cfd82fbe4dbc49cf252e9ed611abf354775
 \
 ,itix-app-frontend/web/e2e/protractor.conf.js,2\6\2606a2de3d902c846b71078cf0bd40aec6a31c24
 K
@@ -59,8 +57,6 @@ $itix-app-frontend/web/src/index.html,6\b\6b49075403dcf88ea2c5a189bb86bcd37d2ad
 .itix-app-frontend/web/src/app/app.component.ts,b\f\bf1b814f8f6600971ca2a4a618c42541d07f9f1f
 ?
 CONTRIBUTING.md,3\f\3f454a98e586d1aa0d322e19afd5e67e08f2d3c8
-f
-6itix-app-frontend/web/src/app/test/test.component.html,8\4\845ac991a87de07fdfdbac2a9f90205731fc10a4
 c
 3itix-app-frontend/web/src/app/app-routing.module.ts,c\5\c5bf4cde3ab1e90e539d923c082c2a2b0d36a76f
 c

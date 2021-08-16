@@ -12,6 +12,7 @@
         <module>itix-core</module>
         <module>itix-rest</module>
         <module>rest-spark</module>
+        <module>itix-rest-spark</module>
     </modules>
     <packaging>pom</packaging>
 

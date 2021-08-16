@@ -5,7 +5,6 @@ import static spark.Spark.get;
 import com.google.gson.Gson;
 import itix.core.config.ItixApplication;
 import itix.core.service.MatchService;
-import itix.rest.spark.StandardResponse.StatusResponse;
 import itix.rest.spark.conf.RestAppConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -20,14 +19,11 @@ public class RestService {
         ItixApplication application = context.getBean(ItixApplication.class);
         matchService = application.getMatchService();
 
-        // url : http://localhost:4567/getMatches
+        // this will set up the url http://localhost:4567/getMatches
         get("/getMatches", (req, res) -> {
             res.type("application/json");
-//            return new Gson().toJson(matchService.getAllMatches());
-            return new StandardResponse(StatusResponse.SUCCESS,
-                  new Gson().toJsonTree(matchService.getAllMatches()));
+            return new Gson().toJsonTree(matchService.getAllMatches());
         });
     }
-
 
 }

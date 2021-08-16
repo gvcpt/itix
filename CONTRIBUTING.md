@@ -21,4 +21,12 @@
 ### itix-rest
 
 - projet qui expose via des WS REST les données récupérées via le projet itix-batch pour qu'elles soient appelées et affichées par le front end
-- TODO: configurer le mode d'exposition des ws REST (jar, war, etc)
+- TODO: résoudre NPE lors de l'appel du bean via le front-end
+
+### itix-rest-spark
+
+- exposition des api d'accès à la bd via rest spark
+- execution via la méthode main() et accès via  http://localhost:4567/getMatches
+- NB: à cause de l'erreur suivante:
+  // Access to XMLHttpRequest at 'http://localhost:8080/greeting' from origin 'http://localhost:4200' has been blocked by CORS policy: No '
+  Access-Control-Allow-Origin' header is present on the requested resource. le front end ne marche que sous Mozilla en utilisant l'extension CORS Everywhere
