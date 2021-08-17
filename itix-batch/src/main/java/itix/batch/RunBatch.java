@@ -28,15 +28,10 @@ public class RunBatch {
         ItixApplication application = context.getBean(ItixApplication.class);
 
         List<String> file = CsvFileHelper
-              .readFile(CsvFileHelper.getResource(RESOURCES_PATH + SOCCER_SPI_LATEST + ".csv"));
+              .readFile(CsvFileHelper.getResource(RESOURCES_PATH + SOCCER_SPI + ".csv"));
         application.footballWriteDb(file, SERIE_B_ID);
 
-        application.createxGClassement();
-
-//        final Properties prop = PropertyLoader.load(CsvFileHelper.getResourcePath(RESOURCES_PATH + "" + PROPERTIES));
-//        final String teamToLoad = prop.getProperty("teamToLoad");
-//        List<String> file2 = CsvFileHelper.readFile(CsvFileHelper.getResource(RESOURCES_PATH + "" + SIX_NATIONS_COMMON_FILE_NAME + teamToLoad + ".csv"));
-//        application.rugbyWriteToDb(file2);
+//        application.createxGClassement();
 
         System.exit(0);
     }

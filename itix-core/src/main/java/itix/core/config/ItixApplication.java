@@ -7,6 +7,7 @@ import itix.core.service.MatchService;
 import itix.core.service.ScoreService;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,6 +21,7 @@ import java.util.stream.Stream;
 import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
@@ -69,8 +71,10 @@ public class ItixApplication {
         final String firstLiine = file.get(0);
         final List<String> list = Stream.of(firstLiine.split(","))
               .collect(Collectors.toList());
-        final int INDEX_LEAGUE = list.indexOf("league_id");
+        final int INDEX_LEAGUE_ID = list.indexOf("league_id");
+        final int INDEX_LEAGUE_NAME = list.indexOf("league");
         final int INDEX_SEASON = list.indexOf("season");
+        final int INDEX_DATE = list.indexOf("date");
         final int INDEX_HOME_TEAM = list.indexOf("team1");
         final int INDEX_AWAY_TEAM = list.indexOf("team2");
         final int INDEX_HOME_XG = list.indexOf("xg1");
@@ -80,33 +84,46 @@ public class ItixApplication {
         final int INDEX_HOME_SCORE = list.indexOf("score1");
         final int INDEX_AWAY_SCORE = list.indexOf("score2");
 
-        int writeLine = 0;
+        int writeLine = 1;
+        int fileSize = file.size();
         List<Match> matchList = new ArrayList<>();
-        for (String line : file) {
-            final String[] splitLine = line.split(",", -1);
-            if (league.equals(splitLine[INDEX_LEAGUE])
-//                  && (SALERNITANA.equals(splitLine[INDEX_HOME_TEAM]) || SALERNITANA.equals(splitLine[INDEX_AWAY_TEAM]))
-            ) {
-                Match m = new Match();
-                m.setSeason(splitLine[INDEX_SEASON]);
-                m.setHomeTeam(splitLine[INDEX_HOME_TEAM]);
-                m.setAwayTeam(splitLine[INDEX_AWAY_TEAM]);
-                m.setHxG(splitLine[INDEX_HOME_XG]);
-                m.setAxG(splitLine[INDEX_AWAY_XG]);
-                m.setNsHxG(splitLine[INDEX_HOME_NS_XG]);
-                m.setNsAxG(splitLine[INDEX_AWAY_NS_XG]);
-                m.setHScore(splitLine[INDEX_HOME_SCORE]);
-                m.setAScore(splitLine[INDEX_AWAY_SCORE]);
 
-//                matchService.addMatch(m);
-                matchList.add(m);
-                writeLine++;
-            }
+        for (int i = 1; i < fileSize; i++) {
+            final String line = file.get(i);
+            final String[] splitLine = line.split(",", -1);
+            Match m = new Match();
+            m.setSeason(splitLine[INDEX_SEASON]);
+            m.setMatchDate(getDate(splitLine, INDEX_DATE));
+            m.setLeague(splitLine[INDEX_LEAGUE_NAME]);
+            m.setHomeTeam(splitLine[INDEX_HOME_TEAM]);
+            m.setAwayTeam(splitLine[INDEX_AWAY_TEAM]);
+            m.setHxG(splitLine[INDEX_HOME_XG]);
+            m.setAxG(splitLine[INDEX_AWAY_XG]);
+            m.setNsHxG(splitLine[INDEX_HOME_NS_XG]);
+            m.setNsAxG(splitLine[INDEX_AWAY_NS_XG]);
+            m.setHScore(splitLine[INDEX_HOME_SCORE]);
+            m.setAScore(splitLine[INDEX_AWAY_SCORE]);
+
+            matchList.add(m);
+            writeLine++;
         }
         matchService.addMatch(matchList);
 
         logger.debug(writeLine + " lignes écrites");
 
+    }
+
+    private Date getDate(String[] splitLine, int INDEX_DATE) {
+        Date date = null;
+        if (splitLine[INDEX_DATE] != null) {
+            String d = splitLine[INDEX_DATE];
+            try {
+                date = new SimpleDateFormat("yyyy-MM-dd").parse(splitLine[INDEX_DATE]);
+            } catch (ParseException e) {
+                logger.debug("Cannot parse date " + d);
+            }
+        }
+        return date;
     }
 
     public void createxGClassement() {

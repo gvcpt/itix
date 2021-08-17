@@ -1,8 +1,10 @@
 package itix.core.dao;
 
 import itix.core.model.Match;
+import itix.core.service.MatchServiceImpl;
 import java.io.Serializable;
 import java.util.List;
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -11,6 +13,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class MatchDaoImpl implements MatchDao {
+
+    private static final Logger logger = Logger.getLogger(MatchDaoImpl.class);
 
     @Autowired
     private SessionFactory sessionFactory;

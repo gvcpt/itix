@@ -55,8 +55,6 @@ $itix-app-frontend/web/src/index.html,6\b\6b49075403dcf88ea2c5a189bb86bcd37d2ad
 +itix-app-frontend/web/src/app/app.module.ts,3\8\38b3cec8572b7e2fa7b801e73a4ddf2c83d727b6
 ^
 .itix-app-frontend/web/src/app/app.component.ts,b\f\bf1b814f8f6600971ca2a4a618c42541d07f9f1f
-?
-CONTRIBUTING.md,3\f\3f454a98e586d1aa0d322e19afd5e67e08f2d3c8
 c
 3itix-app-frontend/web/src/app/app-routing.module.ts,c\5\c5bf4cde3ab1e90e539d923c082c2a2b0d36a76f
 c

@@ -50,6 +50,7 @@ public class HibernateConfiguration {
         Properties properties = new Properties();
         properties.put("hibernate.dialect", PROPERTY_NAME_HIBERNATE_DIALECT);
         properties.put("hibernate.show_sql", PROPERTY_NAME_HIBERNATE_SHOW_SQL);
+        // toujours à 'none' sauf pour reimport d'un nouveau fichiers via le batch ('create')
         properties.put("hibernate.hbm2ddl.auto", "none");
         properties.put("shutdown", "true");
         return properties;

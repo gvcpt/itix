@@ -1,5 +1,6 @@
 package itix.core.model;
 
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +15,8 @@ public class Match {
 
     private Long id;
     private String season;
+    private Date matchDate;
+    private String league;
     private String homeTeam;
     private String awayTeam;
     private String HScore;
@@ -45,6 +48,23 @@ public class Match {
 
     public void setSeason(String season) {
         this.season = season;
+    }
+
+    public Date getMatchDate() {
+        return matchDate;
+    }
+
+    public void setMatchDate(Date matchDate) {
+        this.matchDate = matchDate;
+    }
+
+    @Column(name = "LEAGUE")
+    public String getLeague() {
+        return league;
+    }
+
+    public void setLeague(String league) {
+        this.league = league;
     }
 
     @Column(name = "HOME_TEAM")
