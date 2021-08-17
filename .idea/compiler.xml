@@ -9,6 +9,7 @@
         <module name="itix-batch" />
         <module name="main" />
         <module name="itix-rest" />
+        <module name="itix-rest-spark" />
         <module name="itix-app-frontend" />
         <module name="itix-core" />
       </profile>

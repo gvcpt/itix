@@ -7,6 +7,7 @@
     <file url="file://$PROJECT_DIR$/itix-batch/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/itix-core" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/itix-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/itix-rest-spark/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/itix-rest/src/main/java" charset="UTF-8" />
   </component>
 </project>

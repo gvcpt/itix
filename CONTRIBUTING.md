@@ -29,4 +29,5 @@
 - execution via la méthode main() et accès via  http://localhost:4567/getMatches
 - NB: à cause de l'erreur suivante:
   // Access to XMLHttpRequest at 'http://localhost:8080/greeting' from origin 'http://localhost:4200' has been blocked by CORS policy: No '
-  Access-Control-Allow-Origin' header is present on the requested resource. le front end ne marche que sous Mozilla en utilisant l'extension CORS Everywhere
+  Access-Control-Allow-Origin' header is present on the requested resource. le front end ne marche que sous Mozilla/Chrome en utilisant l'extension CORS
+  Everywhere (Firefox) ou CORS unblock (Chrome)

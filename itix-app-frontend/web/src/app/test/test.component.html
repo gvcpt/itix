@@ -1,6 +1,41 @@
-<p>number of lines: {{this.matchList.length}}</p>
-<ul>
-  <li *ngFor="let m of this.matchList">
-    <span>{{m.id}} => {{m.homeTeam}} vs {{m.awayTeam}} : {{m.HScore}}({{m.HxG}})-{{m.AScore}}({{m.AxG}})</span>
-  </li>
-</ul>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Itix Application</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+</head>
+
+<body ng-app="itixApp" ng-controller="tableController">
+
+<div class="container bg-light text-success text-sm-center">
+  <h4>number of lines: {{this.matchList.length}}</h4>
+</div>
+
+
+<div class="container bg-light text-warning">
+  <tr class="row">
+    <td class="col-sm-2 text-warning">Id</td>
+    <td class="col-3 text-warning">Home Team</td>
+    <td class="col-3 text-warning">Away Team</td>
+    <td class="col-1 text-warning">Home Team Score</td>
+    <td class="col-1 text-warning">Away Team Score</td>
+    <td class="col-1 text-warning">Home Team xG</td>
+    <td class="col-1 text-warning">Away Team xG</td>
+  </tr>
+  <tr class="row" *ngFor="let m of this.matchList">
+    <td class="col-sm-2 text-info">{{m.id}}</td>
+    <td class="col-3 text-info">{{m.homeTeam}}</td>
+    <td class="col-3 text-info">{{m.awayTeam}}</td>
+    <td class="col-1 text-info">{{m.HScore}}</td>
+    <td class="col-1 text-info">{{m.AScore}}</td>
+    <td class="col-1 text-info">{{m.HxG}}</td>
+    <td class="col-1 text-info">{{m.AxG}}</td>
+  </tr>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
