@@ -9,6 +9,10 @@ public interface MatchService {
 
     List<Match> getAllMatches();
 
+    List<Match> getAllMatches(String leagueId);
+
+    List<Match> getAllMatches(String leagueId, String season);
+
     void addMatch(Match m);
 
     void addMatch(List<Match> m);

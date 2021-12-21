@@ -28,6 +28,16 @@ public class MatchServiceImpl implements MatchService {
     }
 
     @Override
+    public List<Match> getAllMatches(String leagueId) {
+        return matchDao.findAllMatches(leagueId);
+    }
+
+    @Override
+    public List<Match> getAllMatches(String leagueId, String season) {
+        return matchDao.findAllMatches(leagueId, season);
+    }
+
+    @Override
     @Transactional(readOnly = false)
     public void addMatch(Match m) {
         Long id = (Long) matchDao.save(m);

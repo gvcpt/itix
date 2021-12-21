@@ -46,4 +46,18 @@ public class MatchDaoImpl implements MatchDao {
         return query.list();
     }
 
+    @Override
+    public List<Match> findAllMatches(String leagueId) {
+        Query query = getSession().createQuery("select m from " + Match.class.getSimpleName() + " m " + " where m.league = " + leagueId);
+        return query.list();
+    }
+
+    @Override
+    public List<Match> findAllMatches(String leagueId, String season) {
+        Query query = getSession().createQuery("select m from " + Match.class.getSimpleName() + " m " +
+              " where m.league = " + leagueId +
+              " and m.season = " + season);
+        return query.list();
+    }
+
 }

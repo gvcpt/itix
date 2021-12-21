@@ -9,7 +9,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 public class TestBatchConf {
 
-    private static final Logger logger = Logger.getLogger(String.valueOf(RunBatch.class));
+    private static final Logger logger = Logger.getLogger(String.valueOf(RunSpiMatchesBatch.class));
 
     @Autowired
     MatchService matchService;

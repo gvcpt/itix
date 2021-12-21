@@ -14,4 +14,8 @@ public interface MatchDao {
 
     List<Match> findAllMatches();
 
+    List<Match> findAllMatches(String leagueId);
+
+    List<Match> findAllMatches(String leagueId, String year);
+
 }

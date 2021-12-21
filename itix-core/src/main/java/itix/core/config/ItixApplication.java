@@ -1,15 +1,20 @@
 package itix.core.config;
 
+import itix.core.model.Competition;
 import itix.core.model.Match;
-import itix.core.model.ScoreEntity;
+import itix.core.model.MatchSb;
 import itix.core.service.GoalCreated;
+import itix.core.service.JsonService;
 import itix.core.service.MatchService;
-import itix.core.service.ScoreService;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.SQLNonTransientException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -21,13 +26,13 @@ import java.util.stream.Stream;
 import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -42,9 +47,8 @@ public class ItixApplication {
 
     @Autowired
     private MatchService matchService;
-
     @Autowired
-    private ScoreService scoreService;
+    private JsonService jsonService;
 
 
     public void testSimpleWrite() {
@@ -67,7 +71,7 @@ public class ItixApplication {
     }
 
 
-    public void footballWriteDb(List<String> file, String league) {
+    public void storeSpiMatches(List<String> file, String league) {
         final String firstLiine = file.get(0);
         final List<String> list = Stream.of(firstLiine.split(","))
               .collect(Collectors.toList());
@@ -275,35 +279,32 @@ public class ItixApplication {
         }
     }
 
+    public void testStoreStatsbombData() {
+        Competition c = new Competition();
+        c.setCompetition_name("testCompetition2");
+        c.setCompetition_gender("male");
+//        c.setSeason_name("2021/2022");
+        jsonService.storeCompetition(c);
+    }
 
-    public void rugbyWriteToDb(List<String> file) {
+    public void storeStatsbombData(Collection<Competition> competitionCollection) {
+        for (Competition c : competitionCollection) {
+            jsonService.storeCompetition(c);
+        }
 
-        // fill SCORE table
-        for (String line : file) {
-            for (int i = 1; i < 6; i++) {
-                final ScoreEntity scoreLine = new ScoreEntity();
-                final String[] splitLine = line.split(",");
-                scoreLine.setYear(splitLine[0]);
-                final String[] resSplit = splitLine[i].split(":");
-                final String[] resSplitTeam = resSplit[0].split("_");
-                final String[] resSplitScore = resSplit[1].split("-");
-                if (resSplitTeam[1].equals("H")) {
-                    scoreLine.setHomeTeam("ITALY");
-                    scoreLine.setScoreHomeTeam(Integer.valueOf(resSplitScore[0]));
-                    String team = resSplitTeam[0];
-                    scoreLine.setAwayTeam(ScoreEntity.TeamENUM.valueOf(team).getValue());
+        jsonService.flushSession();
+    }
 
-                } else {
-                    scoreLine.setAwayTeam("ITALY");
-                    scoreLine.setScoreHomeTeam(Integer.valueOf(resSplitScore[0]));
-                    String team = resSplitTeam[0];
-                    scoreLine.setHomeTeam(ScoreEntity.TeamENUM.valueOf(team).getValue());
-                }
-                scoreLine.setScoreAwayTeam(Integer.valueOf(resSplitScore[1]));
-                scoreService.addScore(scoreLine);
+    public void storeStatsbombDataMatches(Collection<MatchSb> matchCollection) {
+        for (MatchSb m : matchCollection) {
+            try {
+                jsonService.storeMatch(m);
+            } catch (Exception ex) {
+                logger.debug("Exception while storing match, the treatment will continue");
             }
         }
 
+        jsonService.flushSession();
     }
 
 

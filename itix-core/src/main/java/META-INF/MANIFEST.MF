@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Main-Class: itix.batch.RunBatch
+Main-Class: itix.batch.RunSpiMatchesBatch
 
