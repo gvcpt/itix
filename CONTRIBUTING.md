@@ -6,7 +6,7 @@
 
 - projet angular d'affichage d'informations diverses
 - pour le démarrer, lancer la config Angular CLI-server
-- pour l'instant il cherche les infos depuis un url de test, mais à terme il sera branché au module itix-rest
+- il récupère les données stockées en bdd par le module batch et exposées via le service itix-rest-spark
 
 ### itix-batch
 
@@ -31,6 +31,18 @@
   // Access to XMLHttpRequest at 'http://localhost:8080/greeting' from origin 'http://localhost:4200' has been blocked by CORS policy: No '
   Access-Control-Allow-Origin' header is present on the requested resource. le front end ne marche que sous Mozilla/Chrome en utilisant l'extension CORS
   Everywhere (Firefox) ou CORS unblock (Chrome)
+
+### itixReact
+
+- front end pour affichage en ReactJs
+- pour le démarrer lancer la config npm ReacJs front-end (ou faire un npm start dans le répertoire)
+- activer l'extension CorsE enable dans le navigateur pour bypasser le problème de Cross Origin
+
+### itix-express
+
+- front end pour affichage en NodeJs Express
+- pour le démarrer lancer la config Node Express front-end
+- pas besoind de l'extension CorsE
 
 // TODO
 
