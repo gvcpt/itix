@@ -1,0 +1,10 @@
+extends layout
+
+block content
+
+
+  for m  in matches
+    p #{m.id} #{m.homeTeam} #{m.awayTeam} :  #{m.homeScore}(#{m.HxG}) -  #{m.awayScore}(#{m.AxG})
+
+
+
