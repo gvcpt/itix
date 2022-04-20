@@ -1,7 +1,7 @@
 package itix.core.dao;
 
 import itix.core.model.Match;
-import itix.core.service.MatchServiceImpl;
+import itix.core.model.XgTemplate;
 import java.io.Serializable;
 import java.util.List;
 import org.apache.log4j.Logger;
@@ -36,6 +36,11 @@ public class MatchDaoImpl implements MatchDao {
     }
 
     @Override
+    public void save(XgTemplate xg) {
+        getSession().save(xg);
+    }
+
+    @Override
     public Match findById(final Long id) {
         return getSession().get(Match.class, id);
     }
@@ -47,16 +52,31 @@ public class MatchDaoImpl implements MatchDao {
     }
 
     @Override
-    public List<Match> findAllMatches(String leagueId) {
-        Query query = getSession().createQuery("select m from " + Match.class.getSimpleName() + " m " + " where m.league = " + leagueId);
+    public List<String> findAllTeams() {
+        Query queryHomeTeam = getSession().createQuery("select distinct m.homeTeam from " + Match.class.getSimpleName() + " m");
+        List<String> allTeams = queryHomeTeam.list();
+        return allTeams;
+    }
+
+    @Override
+    public List<Match> findAllMatchesByTeam(String team) {
+        Query query = getSession().createQuery("select m from " + Match.class.getSimpleName() + " m " +
+              " where m.homeTeam = \'" + team + "\' or m.awayTeam = \'" + team + "\'");
+        return query.list();
+    }
+
+    @Override
+    public List<Match> findAllMatchesByLeagueId(String leagueId) {
+        Query query = getSession().createQuery("select m from " + Match.class.getSimpleName() + " m " + " where m.leagueId = " + leagueId);
         return query.list();
     }
 
     @Override
     public List<Match> findAllMatches(String leagueId, String season) {
         Query query = getSession().createQuery("select m from " + Match.class.getSimpleName() + " m " +
-              " where m.league = " + leagueId +
-              " and m.season = " + season);
+                    " where m.leagueId = " + leagueId
+              // + " and m.season = " + season
+        );
         return query.list();
     }
 

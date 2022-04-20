@@ -2,6 +2,8 @@ package itix.core.service;
 
 import itix.core.dao.MatchDao;
 import itix.core.model.Match;
+import itix.core.model.XgTemplate;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +30,24 @@ public class MatchServiceImpl implements MatchService {
     }
 
     @Override
-    public List<Match> getAllMatches(String leagueId) {
-        return matchDao.findAllMatches(leagueId);
+    public List<String> getAllTeams() {
+        List<String> teamList = matchDao.findAllTeams();
+        List<String> teamListWithoutSpecialChars = new ArrayList<>(teamList.size());
+        for (String s : teamList) {
+            String newTeam = s.replaceAll("[-+.^:,'`]", " ");
+            teamListWithoutSpecialChars.add(newTeam);
+        }
+        return teamListWithoutSpecialChars;
+    }
+
+    @Override
+    public List<Match> getAllMatchesByTeam(String team) {
+        return matchDao.findAllMatchesByTeam(team);
+    }
+
+    @Override
+    public List<Match> getAllMatchesByLeagueId(String leagueId) {
+        return matchDao.findAllMatchesByLeagueId(leagueId);
     }
 
     @Override
@@ -50,4 +68,10 @@ public class MatchServiceImpl implements MatchService {
         matchDao.save(m);
     }
 
+
+    @Override
+    @Transactional(readOnly = false)
+    public void addExpectedGoal(XgTemplate xg) {
+        matchDao.save(xg);
+    }
 }

@@ -12,7 +12,13 @@
 
 - projet batch qui lit les données historiques depuis le fichier spi_matches ou spi_matches_latest et le stocke en base
 - il produit aussi un fichier xls en sortie avec des stats de base
-- il se lance via la config Run Batch
+- il se lance via la config Run Batch avec les options suivantes:
+- ==> createGlobalClassement : création du classement par xG+, xG- et DxG (Power ranking)
+- ==> createByTeamClassement : création d'un classement de xG+, xG- et DxG d'une équipe particulière
+
+TODO: à partir des deux classements ci dessus projecter les résultats de matchs à venir Comment faire: pour les deux équipes qui se rencontrent produire un
+premier index global de xG depuis le power ranking et un deuxième index spécifique aux deux équipes à partir du deuxième classement. Puis comparer les deux
+index en y applicant un traitment d'AI ?
 
 ### itix-core
 

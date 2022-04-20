@@ -18,20 +18,38 @@ public class RunSpiMatchesBatch {
     private static final String SOCCER_SPI_LATEST = "/spi_matches_latest";
     private static final String SALERNITANA = "Salernitana";
     private static final String SERIE_B_ID = "1856";
+    private static final String SERIE_A_ID = "1854";
 
     private static final Logger logger = Logger.getLogger(String.valueOf(RunSpiMatchesBatch.class));
 
 
     public static void main(final String[] args) {
+        if (args[0] == null) {
+            logger.error("No arg specified");
+        }
 
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfiguration.class);
         ItixApplication application = context.getBean(ItixApplication.class);
 
-        List<String> file = CsvFileHelper
-              .readFile(CsvFileHelper.getResource(RESOURCES_PATH + SOCCER_SPI_LATEST + ".csv"));
-        application.storeSpiMatches(file, SERIE_B_ID);
+        switch (args[0]) {
+            case "importData":
+                List<String> file = CsvFileHelper
+                      .readFile(CsvFileHelper.getResource(RESOURCES_PATH + SOCCER_SPI_LATEST + ".csv"));
+                application.storeSpiMatches(file, SERIE_A_ID);
+                break;
 
-//        application.createxGClassement();
+            case "createGlobalClassement":
+                application.createGlobalxGClassement();
+                break;
+
+            case "createByTeamClassement":
+                application.createClassementByTeam();
+                break;
+
+            default:
+                logger.error("No treatement for specified argument " + args[0]);
+                break;
+        }
 
         System.exit(0);
     }

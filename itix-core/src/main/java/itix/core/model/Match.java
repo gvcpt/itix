@@ -17,6 +17,7 @@ public class Match {
     private String season;
     private Date matchDate;
     private String league;
+    private String leagueId;
     private String homeTeam;
     private String awayTeam;
     private String HScore;
@@ -65,6 +66,15 @@ public class Match {
 
     public void setLeague(String league) {
         this.league = league;
+    }
+
+    @Column(name = "LEAGUE_ID")
+    public String getLeagueId() {
+        return leagueId;
+    }
+
+    public void setLeagueId(String leagueId) {
+        this.leagueId = leagueId;
     }
 
     @Column(name = "HOME_TEAM")
