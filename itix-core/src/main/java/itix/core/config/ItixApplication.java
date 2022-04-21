@@ -4,6 +4,7 @@ import itix.core.model.Match;
 import itix.core.model.XgTemplate;
 import itix.core.service.GoalCreated;
 import itix.core.service.MatchService;
+import itix.core.sobj.TeamResult;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
@@ -102,6 +103,12 @@ public class ItixApplication {
             m.setHScore(splitLine[INDEX_HOME_SCORE]);
             m.setAScore(splitLine[INDEX_AWAY_SCORE]);
             computePoints(m);
+            if (m.getLeagueId().equals(ItixConstants.SERIE_A_ID)) {
+                logger.debug("league id = " + ItixConstants.SERIE_A_ID + " match date " + m.getMatchDate() + " season " + m.getSeason());
+                if (m.getHomeTeam().equals("Lazio") && m.getAwayTeam().equals("Atalanta")) {
+                    logger.debug("Lazio - Atalanta = " + m.getHScore() + " " + m.getAScore());
+                }
+            }
 
             matchList.add(m);
             writeLine++;
@@ -113,13 +120,13 @@ public class ItixApplication {
     }
 
     private void computePoints(Match m) {
-        if (m.getHScore().isEmpty() || m.getAScore().isEmpty()) {
+        if (m.getHScore() == null || m.getHScore().isEmpty() || m.getAScore() == null || m.getAScore().isEmpty()) {
             return;
         }
         if (Double.valueOf(m.getHScore()).compareTo(Double.valueOf(m.getAScore())) > 0) {
             m.setHomePoints(3);
             m.setAwayPoints(0);
-        } else if (Double.valueOf(m.getHScore()).compareTo(Double.valueOf(m.getAScore())) > 0) {
+        } else if (Double.valueOf(m.getHScore()).compareTo(Double.valueOf(m.getAScore())) < 0) {
             m.setHomePoints(0);
             m.setAwayPoints(3);
         } else {
@@ -238,30 +245,33 @@ public class ItixApplication {
     /*
      * Cette méthode crée les classements des différents championnats
      */
-    public void createAllClassements() {
-        List<Match> leagueMatchList = matchService.getAllMatchesByLeagueId(ItixConstants.SERIE_A_ID);
-        if (leagueMatchList == null) {
-            logger.debug("No match found for league " + ItixConstants.SERIE_A_ID);
-            return;
+    private List<TeamResult> createSeasonClassement(List<Match> seasonMatchList) {
+        List<TeamResult> classement = new ArrayList<>();
+        seasonMatchList.stream().map(Match::getHomeTeam).forEach(t -> addToClassement(t, classement));
+
+        for (Match m : seasonMatchList) {
+//            logger.debug("match " + m.getHomeTeam() + " - " + m.getAwayTeam() + " : " + m.getHScore() + " - " + m.getAScore());
+            if (m.getHScore() != null && !m.getHScore().isEmpty() && m.getAScore() != null && !m.getAScore().isEmpty()) {
+                addPoints(classement, m.getHomeTeam(), m.getHomePoints());
+                addPoints(classement, m.getAwayTeam(), m.getAwayPoints());
+                Collections.sort(classement);
+//                logger.debug("new classement " + classement.toString());
+            }
         }
-        Set<String> yearList = leagueMatchList.stream()
-              .map(Match::getSeason)
-              .collect(Collectors.toSet());
-        // create classements by season
-        Map<String, List<Match>> classementBySeasonMap = new HashMap<>();
-        for (String year : yearList) {
-            List<Match> seasonMatchList = leagueMatchList.stream().filter(m -> year.equals(m.getSeason())).collect(Collectors.toList());
-            createSeasonClassement(classementBySeasonMap, year, seasonMatchList);
+        return classement;
+    }
+
+    private void addToClassement(String t, List<TeamResult> classement) {
+        if (classement.stream().noneMatch(tr -> tr.getTeamName().equals(t))) {
+            classement.add(new TeamResult(t, 0));
         }
     }
 
-    private void createSeasonClassement(Map<String, List<Match>> classementBySeasonMap, String seasonYear, List<Match> seasonMatchList) {
-        List<Match> season = createSeasonInfos(seasonMatchList);
-        classementBySeasonMap.put(seasonYear, season);
-    }
-
-    private List<Match> createSeasonInfos(List<Match> seasonMatchList) {
-        return Collections.emptyList();
+    private void addPoints(List<TeamResult> classement, String team, Integer points) {
+        classement.stream()
+              .filter(t -> t.getTeamName().equals(team))
+              .findFirst()
+              .ifPresent(tr -> tr.setTeamPoints(tr.getTeamPoints() + points));
     }
 
     /*
@@ -269,24 +279,23 @@ public class ItixApplication {
      */
     public void createClassementByLeagueSeason() {
 
-        List<Match> leagueMatchList = matchService.getAllMatchesByLeagueId(ItixConstants.SERIE_A_ID);
-        if (leagueMatchList == null) {
-            logger.debug("No match found for league " + ItixConstants.SERIE_A_ID);
-            return;
-        }
+        List<Match> leagueMatchList = matchService.getAllMatchesByLeagueId(ItixConstants.SERIE_A_ID).stream().sorted().collect(Collectors.toList());
         Set<String> yearList = leagueMatchList.stream()
               .map(Match::getSeason)
               .collect(Collectors.toSet());
 
-        // TODO créer le classement final pour pouvoir évaluer la fonction de cout pour chaque indicateur
-        // create classements by season
-        Map<String, List<Match>> classementBySeasonList = new HashMap<>();
+        // create classements by seasons
+        Map<String, List<TeamResult>> classementBySeasonList = new HashMap<>();
         for (String year : yearList) {
             List<Match> seasonMatchList = leagueMatchList.stream().filter(m -> year.equals(m.getSeason())).collect(Collectors.toList());
-            classementBySeasonList.put(year, seasonMatchList);
+
+            // final classement of league for the current year. It will be the reference for the indicator performances
+            List<TeamResult> classement = createSeasonClassement(seasonMatchList);
+//            logger.debug("classement " + year + " " + classement.toString());
+            classementBySeasonList.put(year, classement);
+
             // test indicator : xG+
-            // test indicator : DG
-            testIndicator(seasonMatchList, ItixConstants.DG_CLASSEMENT);
+//            testIndicator(seasonMatchList, ItixConstants.DG_CLASSEMENT);
         }
 
 
@@ -305,7 +314,6 @@ public class ItixApplication {
             // TODO calculer la fonction de cout qui minimise cet indicateur (par rapport au classement final)
         }
     }
-
 
     private void writeXgTemplateMapToDb(String team, String opponentTeam, GoalCreated xgSrc) {
         XgTemplate xg = new XgTemplate();
@@ -425,7 +433,6 @@ public class ItixApplication {
         }
     }
 
-
     private Sheet createSheet(XSSFWorkbook workbook, CellStyle headerStyle, String sheetName, String cell1Name, String cell2Name, String cell3Name) {
         Sheet sheet = workbook.createSheet(sheetName);
         sheet.setColumnWidth(0, 6000);
@@ -475,7 +482,6 @@ public class ItixApplication {
         headerCell.setCellValue(cellName);
         headerCell.setCellStyle(headerStyle);
     }
-
 
     private void createRows(XSSFWorkbook workbook, Sheet sheet, List<Entry<String, GoalCreated>> aggregatedxGList, String choice) {
         CellStyle style = workbook.createCellStyle();

@@ -8,11 +8,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "MATCH", schema = "ITIX", catalog = "")
-public class Match {
+public class Match implements Comparable<Match> {
 
     private Long id;
     private String season;
@@ -190,5 +189,10 @@ public class Match {
         sb.append(", awayPoints='").append(awayPoints).append('\'');
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public int compareTo(Match o) {
+        return this.matchDate.compareTo(o.matchDate);
     }
 }
