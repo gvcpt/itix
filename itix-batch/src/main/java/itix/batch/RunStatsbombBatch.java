@@ -1,17 +1,11 @@
 package itix.batch;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import itix.batch.config.AppConfiguration;
 import itix.core.config.ItixApplication;
-import itix.core.model.Competition;
-import itix.core.model.MatchSb;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -75,18 +69,18 @@ public class RunStatsbombBatch {
         /**
          * read matches folder
          * */
-        BufferedReader br = null;
-        List<String> pathList = populatePathList();
-        for (String path : pathList) {
-            br = bufferReadearFile(br, path);
-
-            Gson g = new Gson();
-            Type cType = new TypeToken<Collection<MatchSb>>() {
-            }.getType();
-            Collection<MatchSb> matches = g.fromJson(br, cType);
-            logger.debug(matches.size());
-            application.storeStatsbombDataMatches(matches);
-        }
+//        BufferedReader br = null;
+//        List<String> pathList = populatePathList();
+//        for (String path : pathList) {
+//            br = bufferReadearFile(br, path);
+//
+//            Gson g = new Gson();
+//            Type cType = new TypeToken<Collection<MatchSb>>() {
+//            }.getType();
+//            Collection<MatchSb> matches = g.fromJson(br, cType);
+//            logger.debug(matches.size());
+//            application.storeStatsbombDataMatches(matches);
+//        }
 
         System.exit(0);
     }

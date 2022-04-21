@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "MATCH", schema = "ITIX", catalog = "")
@@ -26,6 +27,8 @@ public class Match {
     private String AxG;
     private String nsHxG;
     private String nsAxG;
+    private Integer homePoints;
+    private Integer awayPoints;
 
     public Match() {
     }
@@ -149,11 +152,32 @@ public class Match {
         this.nsAxG = nsAxG;
     }
 
+    @Column(name = "h_points")
+    public Integer getHomePoints() {
+        return homePoints;
+    }
+
+    public void setHomePoints(Integer homePoints) {
+        this.homePoints = homePoints;
+    }
+
+    @Column(name = "a_points")
+    public Integer getAwayPoints() {
+        return awayPoints;
+    }
+
+    public void setAwayPoints(Integer awayPoints) {
+        this.awayPoints = awayPoints;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Match{");
         sb.append("id=").append(id);
         sb.append(", season='").append(season).append('\'');
+        sb.append(", matchDate=").append(matchDate);
+        sb.append(", league='").append(league).append('\'');
+        sb.append(", leagueId='").append(leagueId).append('\'');
         sb.append(", homeTeam='").append(homeTeam).append('\'');
         sb.append(", awayTeam='").append(awayTeam).append('\'');
         sb.append(", HScore='").append(HScore).append('\'');
@@ -162,6 +186,8 @@ public class Match {
         sb.append(", AxG='").append(AxG).append('\'');
         sb.append(", nsHxG='").append(nsHxG).append('\'');
         sb.append(", nsAxG='").append(nsAxG).append('\'');
+        sb.append(", homePoints='").append(homePoints).append('\'');
+        sb.append(", awayPoints='").append(awayPoints).append('\'');
         sb.append('}');
         return sb.toString();
     }

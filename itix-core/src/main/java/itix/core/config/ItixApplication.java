@@ -1,23 +1,21 @@
 package itix.core.config;
 
-import itix.core.model.Competition;
 import itix.core.model.Match;
-import itix.core.model.MatchSb;
 import itix.core.model.XgTemplate;
 import itix.core.service.GoalCreated;
-import itix.core.service.JsonService;
 import itix.core.service.MatchService;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -44,8 +42,6 @@ public class ItixApplication {
 
     @Autowired
     private MatchService matchService;
-    @Autowired
-    private JsonService jsonService;
 
 
     public void testSimpleWrite() {
@@ -105,6 +101,7 @@ public class ItixApplication {
             m.setNsAxG(splitLine[INDEX_AWAY_NS_XG]);
             m.setHScore(splitLine[INDEX_HOME_SCORE]);
             m.setAScore(splitLine[INDEX_AWAY_SCORE]);
+            computePoints(m);
 
             matchList.add(m);
             writeLine++;
@@ -113,6 +110,22 @@ public class ItixApplication {
 
         logger.debug(writeLine + " lignes écrites");
 
+    }
+
+    private void computePoints(Match m) {
+        if (m.getHScore().isEmpty() || m.getAScore().isEmpty()) {
+            return;
+        }
+        if (Double.valueOf(m.getHScore()).compareTo(Double.valueOf(m.getAScore())) > 0) {
+            m.setHomePoints(3);
+            m.setAwayPoints(0);
+        } else if (Double.valueOf(m.getHScore()).compareTo(Double.valueOf(m.getAScore())) > 0) {
+            m.setHomePoints(0);
+            m.setAwayPoints(3);
+        } else {
+            m.setHomePoints(1);
+            m.setAwayPoints(1);
+        }
     }
 
     private Date getDate(String[] splitLine, int INDEX_DATE) {
@@ -128,6 +141,9 @@ public class ItixApplication {
         return date;
     }
 
+    /*
+     * Cette méthode crée un classement globale Excel des xG pour chaque match disponible
+     */
     public void createGlobalxGClassement() {
         List<Match> allMatches = matchService.getAllMatches();
         if (allMatches == null) {
@@ -165,6 +181,10 @@ public class ItixApplication {
         }
     }
 
+
+    /*
+     * Cette méthode crée un classement pour chaque équipe avec le cumul des xG pour chaque équipe rencontré
+     */
     public void createClassementByTeam() {
 
         List<String> teamList = matchService.getAllTeams();
@@ -210,11 +230,84 @@ public class ItixApplication {
 //            } catch (IOException e) {
 //                e.printStackTrace();
 //            }
-            goalCreatedByTeam.forEach((k, v) -> writeMapToDb(t, k, v));
+            goalCreatedByTeam.forEach((k, v) -> writeXgTemplateMapToDb(t, k, v));
         }
     }
 
-    private void writeMapToDb(String team, String opponentTeam, GoalCreated xgSrc) {
+
+    /*
+     * Cette méthode crée les classements des différents championnats
+     */
+    public void createAllClassements() {
+        List<Match> leagueMatchList = matchService.getAllMatchesByLeagueId(ItixConstants.SERIE_A_ID);
+        if (leagueMatchList == null) {
+            logger.debug("No match found for league " + ItixConstants.SERIE_A_ID);
+            return;
+        }
+        Set<String> yearList = leagueMatchList.stream()
+              .map(Match::getSeason)
+              .collect(Collectors.toSet());
+        // create classements by season
+        Map<String, List<Match>> classementBySeasonMap = new HashMap<>();
+        for (String year : yearList) {
+            List<Match> seasonMatchList = leagueMatchList.stream().filter(m -> year.equals(m.getSeason())).collect(Collectors.toList());
+            createSeasonClassement(classementBySeasonMap, year, seasonMatchList);
+        }
+    }
+
+    private void createSeasonClassement(Map<String, List<Match>> classementBySeasonMap, String seasonYear, List<Match> seasonMatchList) {
+        List<Match> season = createSeasonInfos(seasonMatchList);
+        classementBySeasonMap.put(seasonYear, season);
+    }
+
+    private List<Match> createSeasonInfos(List<Match> seasonMatchList) {
+        return Collections.emptyList();
+    }
+
+    /*
+     * Cette méthode crée les classement
+     */
+    public void createClassementByLeagueSeason() {
+
+        List<Match> leagueMatchList = matchService.getAllMatchesByLeagueId(ItixConstants.SERIE_A_ID);
+        if (leagueMatchList == null) {
+            logger.debug("No match found for league " + ItixConstants.SERIE_A_ID);
+            return;
+        }
+        Set<String> yearList = leagueMatchList.stream()
+              .map(Match::getSeason)
+              .collect(Collectors.toSet());
+
+        // TODO créer le classement final pour pouvoir évaluer la fonction de cout pour chaque indicateur
+        // create classements by season
+        Map<String, List<Match>> classementBySeasonList = new HashMap<>();
+        for (String year : yearList) {
+            List<Match> seasonMatchList = leagueMatchList.stream().filter(m -> year.equals(m.getSeason())).collect(Collectors.toList());
+            classementBySeasonList.put(year, seasonMatchList);
+            // test indicator : xG+
+            // test indicator : DG
+            testIndicator(seasonMatchList, ItixConstants.DG_CLASSEMENT);
+        }
+
+
+    }
+
+    private void testIndicator(List<Match> matchList, String indicator) {
+        // create classement by indicator
+        Map<String, GoalCreated> goalCreatedByTeam = new HashMap<String, GoalCreated>(matchList.size());
+
+        for (Match m : matchList) {
+            if (m.getHScore() == null) {
+                continue;
+            }
+
+            // TODO créer un classement par indicateur
+            // TODO calculer la fonction de cout qui minimise cet indicateur (par rapport au classement final)
+        }
+    }
+
+
+    private void writeXgTemplateMapToDb(String team, String opponentTeam, GoalCreated xgSrc) {
         XgTemplate xg = new XgTemplate();
         xg.setTeam(team);
         xg.setOpponent(opponentTeam);
@@ -455,35 +548,6 @@ public class ItixApplication {
 
         }
 
-    }
-
-
-    public void testStoreStatsbombData() {
-        Competition c = new Competition();
-        c.setCompetition_name("testCompetition2");
-        c.setCompetition_gender("male");
-//        c.setSeason_name("2021/2022");
-        jsonService.storeCompetition(c);
-    }
-
-    public void storeStatsbombData(Collection<Competition> competitionCollection) {
-        for (Competition c : competitionCollection) {
-            jsonService.storeCompetition(c);
-        }
-
-        jsonService.flushSession();
-    }
-
-    public void storeStatsbombDataMatches(Collection<MatchSb> matchCollection) {
-        for (MatchSb m : matchCollection) {
-            try {
-                jsonService.storeMatch(m);
-            } catch (Exception ex) {
-                logger.debug("Exception while storing match, the treatment will continue");
-            }
-        }
-
-        jsonService.flushSession();
     }
 
 

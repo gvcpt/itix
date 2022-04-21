@@ -2,6 +2,7 @@ package itix.batch;
 
 import itix.batch.config.AppConfiguration;
 import itix.core.config.ItixApplication;
+import itix.core.config.ItixConstants;
 import itix.core.helper.CsvFileHelper;
 import java.util.List;
 import org.apache.log4j.Logger;
@@ -16,9 +17,6 @@ public class RunSpiMatchesBatch {
     private static final String SIX_NATIONS_COMMON_FILE_NAME = "/6NationsStatsITIX_";
     private static final String SOCCER_SPI = "/spi_matches";
     private static final String SOCCER_SPI_LATEST = "/spi_matches_latest";
-    private static final String SALERNITANA = "Salernitana";
-    private static final String SERIE_B_ID = "1856";
-    private static final String SERIE_A_ID = "1854";
 
     private static final Logger logger = Logger.getLogger(String.valueOf(RunSpiMatchesBatch.class));
 
@@ -34,16 +32,20 @@ public class RunSpiMatchesBatch {
         switch (args[0]) {
             case "importData":
                 List<String> file = CsvFileHelper
-                      .readFile(CsvFileHelper.getResource(RESOURCES_PATH + SOCCER_SPI_LATEST + ".csv"));
-                application.storeSpiMatches(file, SERIE_A_ID);
+                      .readFile(CsvFileHelper.getResource(RESOURCES_PATH + SOCCER_SPI + ".csv"));
+                application.storeSpiMatches(file, ItixConstants.SERIE_A_ID);
                 break;
 
             case "createGlobalClassement":
                 application.createGlobalxGClassement();
                 break;
 
-            case "createByTeamClassement":
+            case "createClassementByTeam":
                 application.createClassementByTeam();
+                break;
+
+            case "createClassementByLeagueSeason":
+                application.createClassementByLeagueSeason();
                 break;
 
             default:
